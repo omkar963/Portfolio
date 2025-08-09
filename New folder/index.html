@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omkar Mhamunkar | Full Stack Developer Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <meta name="description"
+        content="Portfolio of Omkar Mhamunkar, Computer Engineering graduate specializing in full-stack development, AI/ML, and data analytics.">
+    <meta name="keywords"
+        content="portfolio, web developer, full stack, JavaScript, React, Node.js, AI, ML, data analytics">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --dark-100: #1a1a1a;
+            --dark-200: #121212;
+            --dark-300: #0a0a0a;
+            --accent: #00ff88;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bg-color: #0e0e0e;
+            --card-bg: #1a1a1a;
+            --nav-bg: rgba(26, 26, 26, 0.9);
+            --footer-bg: #121212;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --nav-bg: rgba(245, 245, 245, 0.9);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --dark-100: #f5f5f5;
+            --dark-200: #e0e0e0;
+            --dark-300: #cccccc;
+            --footer-bg: #e0e0e0;
+            --accent: #046dde;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+            transition: background-color 0.5s ease, color 0.3s ease;
+        }
+
+        /* Preloader Styles */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        #preloader.fade-out {
+            opacity: 0;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--accent);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .preloader-text {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-top: 20px;
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+        }
+
+        .theme-toggle-btn {
+            background-color: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .theme-toggle-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            position: relative;
+            padding: 5px 0;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-links a.active {
+            color: var(--text-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a.active::after,
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+            padding: 120px 50px 50px;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            transition: color 0.3s ease;
+        }
+
+        .typing-text {
+            font-size: 1.1rem;
+            min-height: 80px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--accent);
+            color: #000;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 30px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .tech-image {
+            flex: 1;
+            max-width: 45%;
+            text-align: center;
+        }
+
+        .tech-display {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 30px;
+            border-radius: 10px;
+            animation: floatBox 4s ease-in-out infinite;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+
+        @keyframes floatBox {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--text-primary);
+            padding: 60px 0 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .footer-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .footer-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .footer-section p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--card-bg);
+            color: var(--accent);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            color: #000;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 40px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 10px;
+        }
+
+        .footer-accent {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Floating elements in footer */
+        .footer-floating {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(1px);
+            z-index: 0;
+        }
+
+        .footer-floating:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            background-color: var(--accent);
+            top: -30px;
+            left: -30px;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .footer-floating:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            background-color: var(--accent);
+            bottom: -50px;
+            right: -50px;
+            animation: float 20s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(30px, 30px) rotate(180deg);
+            }
+
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+            }
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .scroll-to-top.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .theme-toggle-container {
+                top: 15px;
+                right: 15px;
+            }
+
+            .theme-toggle-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 120px 30px 50px;
+            }
+
+            .hero-content,
+            .tech-image {
+                max-width: 100%;
+                text-align: center;
+            }
+
+            .hero-content {
+                margin-bottom: 50px;
+            }
+
+
+
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background-color: var(--nav-bg);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .theme-toggle-container {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .typing-text {
+                font-size: 1rem;
+            }
+
+            .tech-display {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+
+            .footer-section h3 {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .skills-main {
+                flex-direction: column;
+                padding-top: 6rem;
+            }
+
+            .skills-list {
+                margin-left: 0;
+                margin-top: 3rem;
+                width: 100%;
+            }
+
+            .skills-3d {
+                width: 300px;
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .skills-list {
+                padding: 1.5rem;
+            }
+        }
+
+
+        .circle {
+       position: absolute;
+       width: 10px;
+       height: 10px;
+       border-radius: 100%;
+       opacity: 0.2;
+       animation: floatCircle linear infinite;
+       z-index: 0;
+       }
+
+       @keyframes floatCircle {
+       0% {
+       transform: translateY(0);
+       }
+
+       100% {
+       transform: translateY(-100vh);
+       }
+       }
+    </style>
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader"></div>
+        <div class="preloader-text">Welcome to Omkar's Portfolio</div>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle-btn" id="themeToggleBtn">
+            <i class="fas fa-moon"></i>
+            <span>Dark Mode</span>
+        </button>
+    </div>
+
+    <!-- Floating Background Elements -->
+    <div id="bg-circles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">Omkar<span>Mhamunkar</span></a>
+            <ul class="nav-links">
+                <li><a href="./index.html" class="active">Home</a></li>
+                <li><a href="./projects.html">Projects</a></li>
+                <li><a href="./skills.html">Skills</a></li>
+                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="./education.html">Education</a></li>
+                <li><a href="./certification.html">Certifications</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>ABOUT <span style="color: var(--accent)">ME</span></h1>
+            <p class="typing-text" id="typing"></p>
+            <a href="#" class="btn" onclick="showResume()">Download Resume</a>
+        </div>
+        <div class="tech-image">
+            <div class="tech-display" id="techDisplay">Loading...</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-floating"></div>
+        <div class="footer-floating"></div>
+        <div class="footer-container">
+            <div class="footer-section" id="footer-about">
+                <h3>About Me</h3>
+                <p>Computer Engineering graduate with expertise in full-stack development, AI/ML, and data analytics.
+                    Passionate about creating innovative solutions.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+            <div class="footer-section" id="footer-links">
+                <h3>Quick Links</h3>
+                <p><a href="index.html" style="color: var(--text-secondary); text-decoration: none;">Home</a></p>
+                <p><a href="projects.html" style="color: var(--text-secondary); text-decoration: none;">Projects</a></p>
+                <p><a href="skills.html" style="color: var(--text-secondary); text-decoration: none;">Skills</a></p>
+                <p><a href="contact.html" style="color: var(--text-secondary); text-decoration: none;">Contact</a></p>
+            </div>
+            <div class="footer-section" id="footer-contact">
+                <h3>Get In Touch</h3>
+                <p><i class="fas fa-map-marker-alt" style="margin-right: 10px; color: var(--accent);"></i> Mumbai, India
+                </p>
+                <p><i class="fas fa-envelope" style="margin-right: 10px; color: var(--accent);"></i>
+                    omkarvmhamunkar@gmail.com</p>
+                <p><i class="fas fa-phone" style="margin-right: 10px; color: var(--accent);"></i> +91 87934 39443</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="currentYear"></span> Omkar Mhamunkar. All Rights Reserved.</p>
+            <p>Made with <span class="footer-accent">♥</span> and <span class="footer-accent">code</span></p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('fade-out');
+                setTimeout(function() {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Typing Effect
+        const text =
+            `Motivated and detail-oriented Computer Engineering undergraduate with expertise in full-stack web development, artificial intelligence (AI), machine learning (ML), and data analytics. Adept at building scalable applications, RESTful APIs, microservices architecture, and cloud computing solutions. Passionate about agile development, DevOps, and automation. Seeking an entry-level Software Developer role to apply problem-solving, analytical thinking, and coding skills.`;
+        const typingElement = document.getElementById("typing");
+        let idx = 0;
+
+        function type() {
+            if (idx < text.length) {
+                typingElement.innerHTML += text.charAt(idx);
+                idx++;
+                setTimeout(type, 20);
+            }
+        }
+
+        type();
+        // Floating Circles
+        function getRandomNeonColor() {
+            const neonColors = ["#39ff14", "#00ffff", "#ff00ff", "#ffff00", "#ff6ec4", "#3bf0e4", "#338486"];
+            return neonColors[Math.floor(Math.random() * neonColors.length)];
+        }
+
+        const bg = document.getElementById("bg-circles");
+        for (let i = 0; i < 50; i++) {
+            const circle = document.createElement("div");
+            circle.classList.add("circle");
+            circle.style.top = `${Math.random() * 100}%`;
+            circle.style.left = `${Math.random() * 100}%`;
+            circle.style.animationDuration = `${10 + Math.random() * 20}s`;
+            circle.style.background = getRandomNeonColor();
+            bg.appendChild(circle);
+
+            setInterval(() => {
+                circle.style.background = getRandomNeonColor();
+            }, 3000 + Math.random() * 3000);
+        }
+
+        // Animated Skill Display
+        const techPhrases = [
+            "Full Stack Development",
+            "Machine Learning",
+            "Data Analysis",
+            "Data Science",
+            "Blockchain",
+            "Web 3.0"
+        ];
+
+        const display = document.getElementById("techDisplay");
+        let phraseIndex = 0;
+
+        function animateText() {
+            display.textContent = "";
+            const phrase = techPhrases[phraseIndex];
+            let charIndex = 0;
+
+            function typeChar() {
+                if (charIndex < phrase.length) {
+                    display.textContent += phrase.charAt(charIndex++);
+                    setTimeout(typeChar, 60);
+                } else {
+                    setTimeout(() => {
+                        phraseIndex = (phraseIndex + 1) % techPhrases.length;
+                        animateText();
+                    }, 1500);
+                }
+            }
+
+            typeChar();
+        }
+
+        animateText();
+
+        // Theme Toggle
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+
+        // Set initial theme
+        document.documentElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'light') {
+            themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+        } else {
+            themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            if (newTheme === 'light') {
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon"></i><span>Dark Mode</span>';
+            } else {
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun"></i><span>Light Mode</span>';
+            }
+        });
+
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            hamburger.innerHTML = navLinks.classList.contains('active') ?
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                navLinks.classList.remove('active');
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scroll to Top Button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('active');
+                document.querySelector('.navbar').classList.add('scrolled');
+            } else {
+                scrollToTopBtn.classList.remove('active');
+                document.querySelector('.navbar').classList.remove('scrolled');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Footer section animations
+        const footerSections = document.querySelectorAll('.footer-section');
+
+        function checkFooterVisibility() {
+            footerSections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+
+                if (sectionTop < windowHeight - 100) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkFooterVisibility);
+        window.addEventListener('load', checkFooterVisibility);
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Resume Preview (placeholder function)
+        function showResume() {
+            window.open('resume.pdf', '_blank');
+        } // Create particles
+        function createParticles() {
+            const colors = ['rgba(0, 255, 136, 0.5)', 'rgba(0, 255, 204, 0.5)', 'rgba(0, 255, 170, 0.5)'];
+
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                const size = Math.random() * 5 + 2;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.background = color;
+                particle.style.boxShadow = `0 0 ${size*2}px ${color}`;
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+
+                const duration = 20 + Math.random() * 20;
+                const delay = Math.random() * 5;
+
+                particle.style.animation = `float ${duration}s ${delay}s infinite linear`;
+
+                document.body.appendChild(particle);
+            }
+        }
+
+        // Floating animation for particles
+        const keyframes = `
+            @keyframes float {
+                0% {
+                    transform: translate(0, 0);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: translate(0, 0);
+                    opacity: 1;
+                }
+            }
+        `;
+
+        const styleSheet = document.createElement("style");
+        styleSheet.type = "text/css";
+        styleSheet.innerText = keyframes;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+
+</html>
